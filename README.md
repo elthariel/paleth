@@ -1,5 +1,7 @@
 # Paleth
 
+[![Build Status](https://travis-ci.org/elthariel/paleth.svg?branch=master)](https://travis-ci.org/elthariel/paleth)
+
 Paleth (Opal + Ethereum) is a simple wrapper around ethereum's web3.js
 DApp libray, that provide a Ruby friendly API while staying as close
 as possible to the orignal web3.js API.
