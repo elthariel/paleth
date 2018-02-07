@@ -1,6 +1,9 @@
-require "bundler/gem_tasks"
-require "rspec/core/rake_task"
+require 'bundler/gem_tasks'
+require 'opal/rspec/rake_task'
+require 'paleth'
 
-RSpec::Core::RakeTask.new(:spec)
+Opal::RSpec::RakeTask.new(:spec) do |server, _task|
+  server.append_path 'vendor/assets/javascripts'
+end
 
-task :default => :spec
+task default: :spec

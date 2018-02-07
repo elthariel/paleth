@@ -1,14 +1,12 @@
-require "bundler/setup"
-require "paleth"
+require 'web3'
+require 'paleth'
+require 'opal/rspec/fixes'
+
+WEB3_OPTS = { http: 'http://localhost:4285' }
+
+unless Paleth.make(WEB3_OPTS).connected?
+  raise 'Please install and run ganache-cli: ganache-cli -p 4285'
+end
 
 RSpec.configure do |config|
-  # Enable flags like --only-failures and --next-failure
-  config.example_status_persistence_file_path = ".rspec_status"
-
-  # Disable RSpec exposing methods globally on `Module` and `main`
-  config.disable_monkey_patching!
-
-  config.expect_with :rspec do |c|
-    c.syntax = :expect
-  end
 end
