@@ -2,4 +2,9 @@ sudo: false
 language: ruby
 rvm:
   - 2.4.2
-before_install: gem install bundler -v 1.16.0
+before_install:
+  - gem install bundler -v 1.16.0
+install:
+  - npm install -g ganache-cli
+before_script:
+  - ganache -p 4285
