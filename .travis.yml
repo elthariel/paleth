@@ -6,5 +6,6 @@ before_install:
   - gem install bundler -v 1.16.0
 install:
   - npm install -g ganache-cli
+  - bundle install
 before_script:
   - ganache-cli -p 4285 &
