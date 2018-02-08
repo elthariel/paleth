@@ -1,24 +1,42 @@
+# FIXME:
+# require 'activesupport/core_ext'
+
 module Paleth
   # Repesents a transaction on an ethereum blockchain
   class Transaction
-    def initialize(data)
-      @data = data
+    attr_reader :object
+
+    def initialize(object = {})
+      if object.is_a? Hash
+        @object = object.to_n
+      else
+        @object = object
+      end
     end
 
     SIMPLE_METHODS = %i(hash nonce block_hash block_number transaction_index
-                        from to gas input)
+                        from to input)
     BIGDECIMAL_METHODS = %i(gas_price gas)
 
     SIMPLE_METHODS.each do |name|
       define_method name do
-        @data.JS[name.camelize(false)]
+        @object.JS[name.camelize(false)]
+      end
+
+      define_method "#{name}=" do |value|
+        @object.JS[name.camelize(false)] = value
       end
     end
 
     BIGDECIMAL_METHODS.each do |name|
       define_method name do
-        value = @data.JS[name.camelize(false)]
+        value = @object.JS[name.camelize(false)]
         BigDecimal.new value if value
+      end
+
+      define_method "#{name}=" do |value|
+        value = BigDecimal.new value
+        @object.JS[name.camelize(false)] = Paleth.to_bigdecimal(value).bignumber
       end
     end
 
@@ -29,6 +47,10 @@ module Paleth
       end.join(', ')
 
       "Transaction(#{data})"
+    end
+
+    def to_n
+      object
     end
   end
 end

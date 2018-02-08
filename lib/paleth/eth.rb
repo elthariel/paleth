@@ -200,5 +200,37 @@ module Paleth
            'Use Personal#sign'
       make_promise(@core.web3.JS[:eth], 'sign', address, data)
     end
+
+    # Sends a transaction to the network. Returns a promise which resolves to
+    # the transaction hash.
+    # Transaction can either be a Transaction object, or a hash which is
+    # converted to to a native javascript object (the key names aren't changed)
+    def send_transaction(trans)
+      make_promise(@core.web3.JS[:eth], 'sendTransaction', trans.to_n)
+    end
+
+    # Sends an already signed transaction to the network. Returns a
+    # promise which resolves to the transaction hash.
+    def send_raw_transaction(signed_transaction_data)
+      make_promise(@core.web3.JS[:eth], 'sendRawTransaction',
+                   signed_transaction_data)
+    end
+
+    # Executes a message call transaction, which is directly executed
+    # in the VM of the node, but never mined into the blockchain.
+    # Returns a promise with resolve to the call return value
+    def call(trans, block = nil)
+      args = [trans, block].compact
+      make_promise(@core.web3.JS[:eth], 'call', *args)
+    end
+
+    # Executes a message call or transaction, which is directly
+    # executed in the VM of the node, but never mined into the
+    # blockchain and returns the amount of the gas used.
+    # Estimated gas value is returned as a promise
+    def estimate_gas(trans)
+      args = [trans, block].compact
+      make_promise(@core.web3.JS[:eth], 'call', *args)
+    end
   end
 end
