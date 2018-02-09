@@ -1,5 +1,6 @@
 if RUBY_ENGINE != 'opal'
   require 'opal'
+  require 'opal-activesupport'
 
   require 'paleth/version'
   # Adds web3.js to Sprockets asset path

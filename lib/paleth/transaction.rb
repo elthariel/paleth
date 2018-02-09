@@ -1,5 +1,4 @@
-# FIXME:
-# require 'activesupport/core_ext'
+require 'active_support/core_ext/string'
 
 module Paleth
   # Repesents a transaction on an ethereum blockchain
@@ -8,14 +7,16 @@ module Paleth
 
     def initialize(object = {})
       if object.is_a? Hash
-        @object = object.to_n
+        @object = object.each_with_object({}) do |(key, value), hash|
+          hash[key.camelize(false)] = value
+        end.to_n
       else
         @object = object
       end
     end
 
     SIMPLE_METHODS = %i(hash nonce block_hash block_number transaction_index
-                        from to input)
+                        from to input data)
     BIGDECIMAL_METHODS = %i(gas_price gas)
 
     SIMPLE_METHODS.each do |name|

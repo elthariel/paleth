@@ -4,6 +4,7 @@ require 'paleth/syncing'
 require 'paleth/block'
 require 'paleth/transaction'
 require 'paleth/transaction_receipt'
+require 'paleth/contract'
 
 module Paleth
   # Ethereum blockchain related methods
@@ -229,8 +230,14 @@ module Paleth
     # blockchain and returns the amount of the gas used.
     # Estimated gas value is returned as a promise
     def estimate_gas(trans)
-      args = [trans, block].compact
-      make_promise(@core.web3.JS[:eth], 'call', *args)
+      make_promise(@core.web3.JS[:eth], 'call', trans)
+    end
+
+    # Create a contract object, which can then be used to instantiate
+    # a contract at a particular address
+    # @param abi String The abi array of the contract
+    def contract(abi, address)
+      Paleth::Contract.at(@core, abi, address)
     end
   end
 end

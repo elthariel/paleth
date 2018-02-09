@@ -9,3 +9,6 @@ install:
   - bundle install
 before_script:
   - ganache-cli -p 4285 &
+
+notifications:
+  email: false
