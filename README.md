@@ -9,7 +9,9 @@ Paleth (Opal + Ethereum) is a simple wrapper around ethereum's web3.js
 DApp libray, that provide a Ruby friendly API while staying as close
 as possible to the orignal web3.js API.
 
-Paleth returns Opal's Promise to most of its calls.
+It was initially developped for the Mist client, which only supports
+asynchronous calls. Paleth hence only support async calls variants and
+returns Opal's Promises for most of its calls
 
 
 ## Installation
@@ -56,7 +58,7 @@ end
 
 ## TODO
 
-- [] All basic API
+- [ ] All basic API
   - [x] web3.net
   - [x] web3.eth (everything except filters)
   - [x] web3.db
