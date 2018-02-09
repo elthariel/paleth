@@ -28,15 +28,25 @@ module Paleth
       new(abi, instance, address)
     end
 
-    # Returns the description of a given API call, or all of them if
-    # no +name+ was requested or nil if the requested method wasn't
-    # found.
-    def abi(name = nil)
-      if name.nil?
+    # Returns the abi array if no option was given. If options are
+    # given, filters the abi items using them.
+    #
+    # Example contract.abi(type: 'function', name: 'myFunctionName')
+    def abi(opts = nil)
+      if opts.nil?
         @abi
       else
-        @abi.find { |item| item['name'] == name }
+        @abi.select do |item|
+          opts.reduce(true) do |accu, (key, value)|
+            accu && item[key.to_s] == value
+          end
+        end
       end
+    end
+
+    # Returns the abi array item for the function with the provided name
+    def function(name)
+      abi(name: name, type: 'function').first
     end
 
     # Returns a proxy object on which contract methods are executed
@@ -93,12 +103,12 @@ module Paleth
     def method_missing(name, *args)
       # Check method existence
       camel_name = name.camelize(false)
-      abi = contract.abi(camel_name)
-      raise NoMethodError, "Method #{name} not found" if abi.nil?
+      fun = contract.function(camel_name)
+      raise NoMethodError, "Method #{name} not found" if fun.nil?
 
       # Check method arguments count
       processed_args = []
-      method_arg_count = abi['inputs'].count
+      method_arg_count = fun['inputs'].count
       if args.length < method_arg_count
         msg = "Method #{name} takes at least #{method_arg_count} arguments"
         raise ArgumentError, msg

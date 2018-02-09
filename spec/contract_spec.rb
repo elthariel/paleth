@@ -28,6 +28,21 @@ RSpec.describe 'Contracts' do
     promise
   end
 
+  describe '#abi' do
+    it 'returns the abi array' do
+      expect(subject[:contract].abi).to be_a Array
+      expect(subject[:contract].abi(type: 'function').length).to eq 2
+      expect(subject[:contract].abi(type: 'function', name: 'set').length)
+        .to eq 1
+    end
+  end
+
+  describe '#function' do
+    it 'returns a Hash describing the function' do
+      expect(subject[:contract].function('get')).to be_a Hash
+      expect(subject[:contract].function('__donotexists__')).to be nil
+    end
+  end
 
   async 'can make calls' do
     subject[:contract].call.get.then do |value|
