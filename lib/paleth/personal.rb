@@ -23,6 +23,11 @@ module Paleth
       make_promise(@core.web3.JS[:personal], 'unlockAccount', *args)
     end
 
+    # Returns a Promise. Lock the account with the provided +address+
+    def lock_account!(address)
+      make_promise(@core.web3.JS[:personal], 'lockAccount', address)
+    end
+
     # Create a new account using the provided +passphrase+. Returns
     # the new account address as a Promise.
     def new_account(passphrase)
