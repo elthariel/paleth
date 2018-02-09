@@ -62,7 +62,7 @@ end
   - [x] web3.net
   - [x] web3.eth (everything except filters)
   - [x] web3.db
-  - [ ] web3.personal (partial, only accounts/unlock/sign)
+  - [ ] web3.personal (partial, only newAccount/listAccounts/unlock/sign)
 - [ ] Filter
 - [ ] Contract support
   - [x] Instantiated wrapper with call() and sendTransaction()

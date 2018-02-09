@@ -23,12 +23,26 @@ module Paleth
       make_promise(@core.web3.JS[:personal], 'unlockAccount', *args)
     end
 
+    # Create a new account using the provided +passphrase+. Returns
+    # the new account address as a Promise.
+    def new_account(passphrase)
+      # `debugger`
+      make_promise(@core.web3.JS[:personal], 'newAccount', passphrase)
+    end
+
     # Sign the hex encoded +message+ with the requested +address+
     # (optionnaly unlocking the account with +password+)
     # Returns a Promise resolving to the requested data
     def sign(message, account, password = nil)
       args = [message, account, password].compact
       make_promise(@core.web3.JS[:personal], 'sign', *args)
+    end
+
+    # Recovers the account that signed the data. Returns the account
+    # which signed as a Promise
+    def ec_recover(signed_data, signature)
+      make_promise(@core.web3.JS[:personal], 'ecRecover',
+                   signed_data, signature)
     end
   end
 end
