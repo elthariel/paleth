@@ -49,6 +49,11 @@ module Paleth
       abi(name: name, type: 'function').first
     end
 
+    # Returns the abi array item for the event with the provided name
+    def event(name)
+      abi(name: name, type: 'event').first
+    end
+
     # Returns a proxy object on which contract methods are executed
     # locally using the `call` process
     def call
