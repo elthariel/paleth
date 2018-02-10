@@ -16,13 +16,15 @@ module Paleth
 
     %i(string hex).each do |type|
       define_method "put_#{type}" do |key, value|
-        make_promise(@core.web3.JS[:db], "put#{type.capitalize}",
-                     db_name, key, value)
+        @core.web3.JS[:db].JS["put#{type.capitalize}"].call(
+          db_name, key, value
+        )
       end
 
       define_method "get_#{type}" do |key|
-        make_promise(@core.web3.JS[:db], "get#{type.capitalize}",
-                     db_name, key)
+        @core.web3.JS[:db].JS["get#{type.capitalize}"].call(
+          db_name, key
+        )
       end
     end
   end
